@@ -1,0 +1,10 @@
+Routing OSPF
+
+!@ R1
+
+ip route <dest> <mask> <next hop>
+
+conf t
+ip route 10.1.1.1 255.255.255.255 10.1.1.5
+end
+ping 10.1.1.1
