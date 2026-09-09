@@ -1,0 +1,79 @@
+10.64.1.5/12    = 255.240.0.0
+192.168.1.96/27 = 0.0.0.31
+172.16.40.0/21 = 0.0.7.255
+
+
+
+router ospf 1
+network 10.64.0.0
+192.168
+
+
+linux:
+[root@iou ~]# ip route del default
+[root@iou ~]# ip route add default via 208.8.8.2 dev eth0
+[root@iou ~]# ip route show
+
+windows
+route add 0.0.00 mask 10.3.3.1
+
+
+
+
+
+RST Hayup
+p1:
+conf t 
+int e0/0
+no shut 
+ip add 10.2.1.101 255.255.255.0
+end
+
+p2:
+conf t 
+int e1/0
+no shut 
+ip add 10.2.1.102 255.255.255.0
+end
+
+a1:
+conf t
+int e0/0
+switchport mode access
+switchport access vlan 10
+end 
+show vlan brief
+
+a2:
+conf t
+int e1/0
+switchport mode access
+switchport access vlan 10
+end 
+show vlan brief
+
+task 1: static route to 192.168.1.128/27 for p1 and p2:
+
+p1:
+conf t
+ip route 192.168.1.128 255.255.255.224 10.2.1.1
+show ip route
+ping 192.168.1.129
+
+@pi: use the longest prefix rule:
+conf t
+ip route 192.168.1.130 255.255.255.255 10.2.1.2
+
+
+TASL 2: Configuring: default gateway,
+gateway of last resort, with floating backup
+
+p1/p2
+conf t
+ip route 0.0.0.0 0.0.0.0 10.2.1.1 1
+ip route 0.0.0.0 0.0.0.0 10.2.1.2 5
+do show ip route static
+
+
+
+TASK #: LEARN EIGRP for multinational companies

@@ -1,0 +1,31 @@
+Cybersec
+
+Attack physical layer
+
+l1
+netsh wlan show profile name="3F-Rivan" key=clear
+
+l2/l3
+nmap -sP 10.3.3.0/24
+
+l4
+nmap -v 10.3.3.122
+net use \\10.3.3.100+m\ipc$
+l5: net use \\10.3.3.122\ipc$
+
+3 way handshake: sa-sae
+    hacker/source              victim/destination
+Source Port 50000  ------SYN----->SP:445          
+destination port: 445           DP:50123
+
+                  <----- acknoledge
+                    -----syn/ack---->
+                     tcp.flags.syn == 1
+
+l6: microsoft ds: net use x: /delete
+                 net use x: \\10.3.3.100+m\c$
+                  net use x: \\10.3.3.122\c$
+
+
+to know: 
+netstat -n -p tcp | findstr 445

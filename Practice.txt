@@ -1,0 +1,52 @@
+Exam TIP
+CSI: Host, devices, router, basta physical device
+CAI: Sites, Subnets, Offices
+
+Ex1. you manage an internet cafe 192.168.1.0/24
+you need 25 users:
+conv : 25  = 5 bits
+subtract: /27 (4th, 32i)
+Ipasok: 192.168.1.32/27
+first 192.168.1.33/27
+Last 192.168.1.62/27
+Broad 192.168.1.63/27
+Not 192.168.1.64/27
+
+Ex2:  you manage an internet cafe 192.168.1.0/24
+you need 5 sites:
+C: 3 
+A: /27
+I: 1st
+   2nd
+   3rd
+   4th
+   5th
+
+Network 10.30.64.0/19
+256 hosts
+256 = 9 bits
+/23  (3rd,2i)
+10.30.66.0/23
+ 
+URS       : 10.30.66.0/23
+1st       : 10.30.66.1/23
+last      :10.30.67.254/23
+broad     :10.30.67.255/23
+NOTurs    :10.30.68.0/23
+
+
+Network 10.30.64.0/19
+64 New Sites
+Third Subnet
+C: 6
+A: /19 + 6 = /25 (4th, 128i)
+I: 1st 10.30.64.128
+   2nd 10.30.65.0
+   3rd 10.30.65.128
+   4th 10.30.66.0
+
+URS       :10.30.65.128/25
+1st       :10.30.65.129/25
+last      :10.30.65.254/25
+broad     :10.30.65.255/25
+NOTurs    :10.30.66.0/25

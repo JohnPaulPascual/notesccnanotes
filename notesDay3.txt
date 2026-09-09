@@ -1,0 +1,21 @@
+
+MSP/NOC/ Service Management
+
+L1/L2 Network Eng
+http://192.168.102.133/otrs/customer.pl
+user1 C1sc0123
+
+L3/L4
+http://192.168.102.133/otrs/index.pl
+
+
+G
+R - Router ID
+A - Area ID
+S - Subnet Mask
+A - Authentication
+
+Hello - 10 SEcs
+Router u Dead -40secs
+DR - Designated Router
+BDR - Backup Designated Router
