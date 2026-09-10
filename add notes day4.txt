@@ -1,0 +1,27 @@
+ADDITONAL NOTESDAY 4
+numbered AL
+
+config t
+  access-list 1 66.254.114.0  0.0.0.255
+  access-list 1 104.0.0.0  0.255.255.255
+  access-list 1 208.77.20.35 0.0.0.0
+  access-list permit 1 permit any
+ int gi 1
+  ip access-group FWP1 in
+  end
+show ip access-list int g1
+
+
+nmap -v neu.edu.ph
+nmap -v sti.edu.ph
+nmap -v dwph.com.ph
+
+
+
+
+!@CoreBABA
+conf t
+ monitor session 1 source interface fa0/3,fa0/5,fa0/7
+ monitor session 1 destination interface fa0/1, fa0/9
+end 
+

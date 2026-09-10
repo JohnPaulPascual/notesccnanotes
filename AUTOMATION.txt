@@ -1,0 +1,31 @@
+Network Automate
+
+>Distributed Control Plane
+Data plane
+- Routing Table
+- 
+Control plane
+- show ip ce
+Management plane
+- pinaka cli gui crt
+
+SDN Controller
+- Cisco APIC
+- Cisco DNA
+
+
+
+
+USER
+
+ v
+
+web App
+
+v
+
+Controller
+
+v
+
+End Points

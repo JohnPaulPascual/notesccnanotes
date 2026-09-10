@@ -1,0 +1,304 @@
+CCNA 4
+
+netstat -n -p tcp
+
+!@NetOps-PH
+youporn.com 66.254.114.79
+pornhub.com 66.254.114.41
+redtube.com 66.254.114.238
+faketaxi.com 66.254.114.234
+bangbros.com 66.254.114.234
+bangbus.com 66.254.114.234
+pinayflix.com 172.67.146.93
+xhamster.com 104.16.3.81
+iyottube.com 208.77.20.35
+sulasok.tv 104.21.34.102
+
+
+
+
+### Create a standard ACL named FWP1
+~~~
+!@UTM-PH
+
+config t
+ no ip access-list standard FWP1
+ ip access-list standard FWP1
+  deny 66.254.114.0  0.0.0.255
+  deny 104.0.0.0  0.255.255.255
+  deny 208.77.20.35 0.0.0.0
+  permit any
+ int gi 1
+  ip access-group FWP1 in
+  end
+show ip access-list int g1
+
+
+
+
+conf t
+ no ip access-list standard FWP2
+ ip access-list standard FWP2
+  deny 172.66.161.211 0.0.0.0
+  deny 50.6.160.47 0.0.0.0
+  deny 184.168.125.216 0.0.0.0
+  deny 155.137.92.102 0.0.0.0
+ permit any
+int gi1
+ ip access-group FWP2 in
+end
+
+
+DAY 4444
+
+
+!@UTM-PH
+config t
+ int g1
+  ip add 208.8.8.100 255.255.255.0 secondary
+  no shut
+  exit
+ ip host www.bet100.com 208.8.8.10
+ service finger
+ service tcp-small-servers
+ service udp-small-servers
+ ip dns server
+ ip http server
+ ip http secure-server
+ telephony-service
+  no auto-reg-ephone
+  max-ephones 5
+  max-dn 20
+  ip source-address 208.8.8.11 port 2000
+  exit
+ voice service voip
+  allow-connections h323 to sip
+          
+  allow-connections sip to h323
+  allow-connections sip to sip
+  supplementary-service h450.12
+ sip
+   bind control source-interface g1
+   bind media source-interface g1
+   registrar server expires max 600 min 60
+ voice register global
+  mode cme
+  source-address 208.8.8.11 port 5060
+  max-dn 12
+  max-pool 12
+  authenticate register
+  create profile sync syncinfo.xml
+  end
+
+
+Layer 4 Firewall
+
+NOTES !@UTM-PH
+conf t
+ no ip access-list extended FWP4
+ ip access-list extended FWP4
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com log
+ permit __ Any host www.____.com eq __ log
+ permit __ Any host www.____.com eq __ log
+ Int gi 3
+  ip access-group FWP4 in
+  end
+
+!@UTM-PH
+conf t
+ no ip access-list extended FWP4
+ ip access-list extended FWP4
+ permit tcp Any host 208.8.8.100 eq 80 log
+ permit tcp Any host 208.8.8.100 eq 443 log
+ permit icmp Any host 208.8.8.100 log   <ping>
+ permit tcp Any host 208.8.8.100 eq 22 log
+ permit tcp Any host 208.8.8.100 eq 53 log
+ Int gi 1
+  ip access-group FWP4 in
+  end
+
+
+Create an access-list named FWP5 to open the following ports
+208.8.8.100 open only telnet,sql,domain, ftp, ping
+
+conf t
+no ip access-list extended FWP5
+ip access-list extended FWP5
+permit tcp Any host 208.8.8.100 eq 23 log
+permit tcp Any host 208.8.8.100 eq 3306 log
+permit tcp Any host 208.8.8.100 eq 53 log
+permit tcp Any host 208.8.8.100 eq 21 log
+
+int g1
+ip access-group FWP5 in
+end
+
+sample 3!!!
+conf t
+no ip access-list extended FWP6
+ip access-list extended FWP6
+permit tcp Any host 208.8.8.100 eq 2000 log
+permit tcp Any host 208.8.8.100 eq 5060 log
+permit tcp Any host 208.8.8.100 eq 143 log
+permit tcp Any host 208.8.8.100 eq 25 log
+permit tcp Any host 208.8.8.100 eq 110 log
+permit tcp Any host 208.8.8.100 eq 21 log
+permit tcp Any host 208.8.8.100 eq 69 log
+permit tcp Any host 208.8.8.100 eq 123 log
+int g1
+ip access-group FWP6 in
+end
+
+change!!!
+!@UTM-PH
+conf t
+ip access-list extended FWP5
+no 20 permit tcp any host 208.8.8.100 eq 3306 log
+20 permit tcp any host 208.8.8.100 eq 25 log
+end
+
+
+
+statepool firewall
+
+
+
+
+
+
+
+
+NAT
+1. Identify what INSIDE and OUTSIDE
+!@UTM-PH 
+conf t
+int g1
+ip nat outside
+int g3
+ip nat inside
+end
+
+2. Define Traffic
+!@UTM-PH 
+conf t
+ ip access-list extended NAT
+permit ip 10.11.11.96 0.0.0.31 any
+end
+
+3. Configure NAT
+Static NAT 1:1
+
+!@UTM-PH
+
+conf t
+ip nat inside source static 10.11.11.101 208.8.8.72
+end
+show ip nat translations
+
+
+4. Mant:1 NAT
+conf t
+ip nat inside source list NAT int g1 overload
+end
+show ip nat translations
+
+
+NAT
+1. Identify what INSIDE and OUTSIDE
+!@UTM-JP
+conf t
+int g1
+ip nat outside
+int g3
+ip nat inside
+end
+
+2. Define Traffic
+!@UTM-JP
+conf t
+ ip access-list extended NAT
+permit ip 10.21.21.208 0.0.0.15 any
+end
+
+3. Configure NAT
+Static NAT 1:1
+
+!@UTM-JP
+
+conf t
+ip nat inside source static 10.11.11.101 208.8.8.72
+end
+show ip nat translations
+
+
+4. Mant:1 NAT
+
+conf t
+ip nat inside source list NAT int g1 overload
+ip route 0.0.0.0 0.0.0.0 208.8.8.2    <set default gateway>
+end
+show ip nat translations
+
+
+
+
+
+
+
+
+
+
+
+
+------ 
+Configure port forwarding
+
+!@UTM-ph
+
+conf t
+ip nat inside source static tcp 10.11.11.101 80 208.8.8.67 8080
+ip nat inside source static tcp 10.11.11.101 443 208.8.8.67 843
+end
+
+conf t
+ip nat inside source static tcp 10.11.11.101 22 208.8.8.67 2222
+end
+
+
+
+
+
+
+!@UTM-JP
+
+conf t
+ip nat inside source static tcp 10.21.21.211 80 208.8.8.200 6969
+ip nat inside source static tcp 10.21.21.211 443 208.8.8.200 8080
+ip nat inside source static tcp 10.21.21.211 22 208.8.8.200 8080
+end
+
+
+
+PAM SOLUTION
+
+jump server
+
+
+
+
+
+----- public key authentication -----
+
+Setup SSH
+
+!@UTM-PH
+
+conf t
+ip domain name ccna.sec
+!
+crypto key generate rsa modulus 2048 label key exportable
+ip ssh version 2
+ip ssh rsa keypair-name key
+end
