@@ -1,0 +1,120 @@
+Day 5 notes
+
+Anycast = /1-/120 = Last 128 IPv6 Addresses and network
+Anycast - Closest Node
+Multicast - Many to one
+Unicast - one to one
+Broadcast - One to Many
+
+
+IPv6
+1. 2001:db8:: /64  ------------- Documentation
+2. :: /0 ----------------------- Default Gateway
+3. fe80::a:0:0:f /10   --------- Link Local Address
+4. fd00:0:0:3000:: /64 --------- Unique Local
+5. ::1 /128 -------------------- Loopback address
+6. ff00::beef:a00a:aa0:0:0 /12 - Multicast Address
+
+** once na naglagay ng ipv6 adress sa isang interface automatically siya magkakaron ng link local **
+
+NDP - Network Discovery Protocol ang gamit sa IPv6
+ARP - Access Routing Protocol for IPv4
+
+
+wala masyadong nag susubnet ng IPv6
+
+1. Manual /65
+2. Half Network | Host - EUI-64
+3. Auto SLAAC    required /64
+4. DHCPv6
+
+!@EDGE
+conf t
+ipv6 unicast-routing
+int g0/0/1
+ipv6 address fd00:32::/64 eui-64
+no shut
+
+show int g0/0/1 | inc bia
+
+
+UNIQUE
+!@EDGE
+conf t
+ipv6 unicast-routing
+int g0/0/1
+ipv6 address autoconfig      [SLAAC] Stateless Address Auto-Configuration
+no shut
+end
+show int g0/0/1 | inc bia
+
+====================================================================
+Day 5 PM sesh
+
+ccdp cisco discovery protocol (default disabled)
+
+cdp run 
+lldp run
+
+show cdp nei  
+show lldp nei
+
+
+===========================
+
+
+Switches must be
+capable for MAC Learning
+POE Power over ethernet
+Loop avoidance
+
+4 superhero of switching
+802.1q   Qpid
+802.1d   Darna
+802.1w   Wonderwoman
+802.1s   Superman
+
+Dapat sa Trunk Port
+
+Exam Switchport to TrunkPort
+"Tag" 802.1q nakasulat kung anong vlan siya nakabelong
+STED   switchport trunk encapsulation dot1q
+SMT   switchport mode trunk
+STAV   switchport trunk allowed vlan all
+STNV   switchport trunk native vlan 1
+
+
+
+STP 
+24K 
+
+32K BOBO No Configuration Done at All
+
+28K Bangag
+
+STP COST
+- eth 100
+- fa 19
+- gig 4
+- 10g 2
+
+
+make sure to off CDP
+
+STP
+Listen
+Learn
+Forwarding
+
+RSTP 
+- para mabilis yung bootup time or up time
+- Bawal mag loop, papataying yung both ports 
+- walang usapan
+
+DTP 
+- Off din dapata DTP
+
+conf t
+int fa0/1
+switchport negotiate
+end
